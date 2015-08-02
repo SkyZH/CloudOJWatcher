@@ -7,7 +7,8 @@ ojconfig = {
 dataPath = {
     'probPath': './data/prob/',
     'execPath': './data/exec/',
-    'codePath': './data/code/'
+    'codePath': './data/code/',
+    'tempPath': './data/temp/'
 }
 
 langCompile = {
@@ -50,5 +51,8 @@ langMap = {
     "Runtime Error" : 6,
     "Compile Error" : 7,
     "Running" : 8,
-    "Unknown" : 9
+    "Unknown" : 9,
+    "Presentation Error" : 10,
+    "Output Limit Excceed" : 11,
+    "System Error" : 12
 }

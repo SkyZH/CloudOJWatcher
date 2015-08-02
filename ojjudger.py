@@ -5,6 +5,7 @@ import subprocess
 import codecs
 import os
 import sys
+import ojrunnerwin
 
 class Judger:
     def __init__(self, client, sid, pid, lang):
@@ -12,30 +13,13 @@ class Judger:
         self.sid = sid
         self.pid = pid
         self.lang = lang
+        self.runner = ojrunnerwin.Runner()
 
     def compile(self, srcPath, outPath):
-        cmd = config.langCompile[self.lang] % {'src': srcPath, 'target': outPath}
-        p = subprocess.Popen(cmd, shell = True,
-          stdout = subprocess.PIPE, stdin = subprocess.PIPE, stderr = subprocess.STDOUT)
-        retval = p.wait()
-        return (retval, p.stdout.read())
+        return self.runner.compile(self, srcPath, outPath)
 
     def judge(self, srcPath, outPath, inFile, ansFile, memlimit, timelimit):
-        cmd = "".join([sys.path[0], "/", config.langRun[self.lang] % {'src': srcPath, 'target': outPath}])
-        p = subprocess.Popen(cmd, shell = True,
-          stdin = subprocess.PIPE, stdout = subprocess.PIPE, stderr = subprocess.STDOUT)
-        retVal = 9
-        try:
-            out, err = p.communicate(input = self.readData(inFile), timeout = int(timelimit) / 1000)
-        except subprocess.TimeoutExpired:
-            p.kill()
-            retVal = 5
-        if(retVal == 9):
-            if(p.returncode != 0):
-                retVal = 6
-            else:
-                retVal = 2
-        return retVal
+        return self.runner.judge(self, srcPath, outPath, inFile, ansFile, memlimit, timelimit)
 
     def run(self):
         srcPath = "%s/%s_%d.code" % (config.dataPath["codePath"], self.sid, random.randint(0, 65536))

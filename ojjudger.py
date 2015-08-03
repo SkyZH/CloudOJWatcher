@@ -6,6 +6,7 @@ import codecs
 import os
 import sys
 import ojrunnerwin
+import ojrunnerlinux
 
 class Judger:
     def __init__(self, client, sid, pid, lang):
@@ -13,7 +14,7 @@ class Judger:
         self.sid = sid
         self.pid = pid
         self.lang = lang
-        self.runner = ojrunnerwin.Runner()
+        self.runner = ojrunnerlinux.Runner()
 
     def compile(self, srcPath, outPath):
         return self.runner.compile(self, srcPath, outPath)
@@ -82,15 +83,15 @@ class Judger:
         return "%s/%s_%s.%s" % (config.dataPath["probPath"], str(pdid), name, ext)
 
     def saveData(self, pdid, name, ext, data):
-        fp = codecs.open(self.__getDataPath(pdid, name, ext), 'a', 'utf-8')
-        fp.write(data.decode('utf-8'))
+        fp = open(self.__getDataPath(pdid, name, ext), 'w')
+        fp.write(data.decode())
         fp.close()
 
     def hasData(self, pdid, name, ext):
         return os.path.exists(self.__getDataPath(pdid, name, ext))
 
     def readData(self, path):
-        fp = codecs.open(path, 'r', 'utf-8')
-        __dat = fp.read().encode('utf-8')
+        fp = open(path, 'rU')
+        __dat = fp.read().encode()
         fp.close()
         return __dat

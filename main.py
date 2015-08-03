@@ -13,8 +13,6 @@ def main():
                 print("Judger Running...")
                 judger = ojjudger.Judger(ojclient, int(_task["sid"]), int(_task["pid"]), int(_task["lang"]))
                 judger.run()
-            elif(_task["status"] == "idle"):
-                print("Judger IDLE~")
             time.sleep(1)
         return 0
     else:

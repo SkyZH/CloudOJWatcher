@@ -1,9 +1,10 @@
-# CloudOJWatcher
+# CloudOJ Watcher
 CloudOJ's Status Watcher, take the place of SNGOJWatcher
 
 ### Usage
 1. Create config.py
 2. `python3 main.py`
+
 ### config.py sample
 ```
 ojconfig = {

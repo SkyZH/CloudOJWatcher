@@ -17,9 +17,10 @@ See CloudOJ [HERE](https://github.com/SkyZH/CloudOJ)
 ## Usage
 
 0. git clone ...
-1. Create config.py
-2. Install Compilers
-3. Run `python3 main.py'
+1. Create config.py (or <Watcher>/config/__init__.py
+2. Install Compilers (gcc g++ fpc)
+3. Edit apikey in CloudOJ's config.ini
+4. Run `python3 main.py' (or Supervisor)
 
 ## Installation
 
@@ -57,7 +58,7 @@ Watcher now don't supprt Windows platform.
         3: "",
         4: "",
         5: "",
-        6: "",
+        6: "fpc -O2 -dONLINE_JUDGE %(src)s -o%(target)s",
         7: "",
         8: "",
         9: "",
@@ -72,7 +73,7 @@ Watcher now don't supprt Windows platform.
         3: "",
         4: "",
         5: "",
-        6: "",
+        6: "%(target)s",
         7: "",
         8: "",
         9: "",

@@ -92,12 +92,14 @@ class OJClient:
         __data = self.getJSONRequest(path, data);
         return __data
 
-    def PutStatus(self, sid, status):
+    def PutStatus(self, sid, status, mem, time):
         APIKey = self.config["apikey"]
         path = self.getPostAPI("status")
         __data = self.getJSONRequest(path, str.encode(json.dumps({
             "type"   : "set",
             "sid"    : sid,
-            "status" : status
+            "status" : status,
+            "memlimit" : mem,
+            "timelimit" : time
         })));
         return __data

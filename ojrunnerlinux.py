@@ -22,7 +22,7 @@ class Runner:
         return (retval, p.stdout.read())
 
     def judge(self, judger, srcPath, outPath, inFile, ansFile, memlimit, timelimit):
-        cmd = "".join([sys.path[0], "/", config.langRun[judger.lang] % {'src': srcPath, 'target': outPath}])
+        cmd = config.langRun[judger.lang] % {'src': srcPath, 'target': outPath}
         fout_path = "".join([sys.path[0], "/", "%s/%d.out" % (config.dataPath["tempPath"], random.randint(0, 65536))])
         
         if os.path.exists(fout_path):
@@ -31,7 +31,6 @@ class Runner:
         
         fin = open(inFile, 'rU')
         fout = open(fout_path, 'w')
-        
         runcfg = {
             'args': [cmd],
             'fd_in': fin.fileno(),
@@ -50,7 +49,6 @@ class Runner:
             crst = lorun.check(fans.fileno(), fout.fileno())
             fout.close()
             fans.close()
-            if crst != 0:
-                return RESULT_MAP[crst]
+            return (RESULT_MAP[crst], int(rst['memoryused']), int(rst['timeused']))
 
-        return RESULT_MAP[rst['result']]
+        return (RESULT_MAP[rst['result']], 0, 0)

@@ -23,18 +23,18 @@ class Judger:
         return self.runner.judge(self, srcPath, outPath, inFile, ansFile, memlimit, timelimit)
 
     def run(self):
-        srcPath = "%s/%s_%d.code" % (config.dataPath["codePath"], self.sid, random.randint(0, 65536))
-        outPath = "%s/%s_%d.exe" % (config.dataPath["execPath"], self.sid, random.randint(0, 65536))
+        srcPath = "%s/%s/%s_%d.code" % (sys.path[0], config.dataPath["codePath"], self.sid, random.randint(0, 65536))
+        outPath = "%s/%s/%s_%d.exe" % (sys.path[0], config.dataPath["execPath"], self.sid, random.randint(0, 65536))
         self.saveCode(srcPath)
 
         print("    Compiling...")
         retVal, retData = self.compile(srcPath, outPath)
         if(retVal != 0):
             self.putRet(retData)
-            self.putStatus(7)
+            self.putStatus(7, 0, 0)
             return 0
         else:
-            self.putStatus(8)
+            self.putStatus(8, 0, 0)
 
         print("    Getting Data...")
 
@@ -51,14 +51,20 @@ class Judger:
 
         print("    Judging...")
         retval = 2
+        mem = 0
+        time = 0
+        jcount = 0
         for key in datalist:
-            retval = self.judge(srcPath, outPath, self.__getDataPath(key, datalist[key], "in"),
+            retval, _mem, _time = self.judge(srcPath, outPath, self.__getDataPath(key, datalist[key], "in"),
               self.__getDataPath(key, datalist[key], "out"), prob_data["memlimit"], prob_data["timelimit"])
+            jcount += 1
+            mem += _mem
+            time += _time
             if(retval != 2):
-                self.putStatus(retval)
+                self.putStatus(retval, mem / jcount, time / jcount)
                 break
         if(retval == 2):
-            self.putStatus(retval)
+            self.putStatus(retval, mem / jcount, time / jcount)
         return 0
 
     def saveCode(self, path):
@@ -70,8 +76,8 @@ class Judger:
     def putRet(self, ret):
         self.client.PutRet(self.sid, ret)
 
-    def putStatus(self, retcode):
-        self.client.PutStatus(self.sid, retcode)
+    def putStatus(self, retcode, mem, time):
+        self.client.PutStatus(self.sid, retcode, mem, time)
 
     def getDataList(self, pid):
         return self.client.GetDataList(pid)
@@ -80,7 +86,7 @@ class Judger:
         return self.client.GetData(pdid, ext)
 
     def __getDataPath(self, pdid, name, ext):
-        return "%s/%s_%s.%s" % (config.dataPath["probPath"], str(pdid), name, ext)
+        return "%s/%s/%s_%s.%s" % (sys.path[0], config.dataPath["probPath"], str(pdid), name, ext)
 
     def saveData(self, pdid, name, ext, data):
         fp = open(self.__getDataPath(pdid, name, ext), 'w')

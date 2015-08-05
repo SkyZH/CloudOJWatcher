@@ -17,7 +17,7 @@ See CloudOJ [HERE](https://github.com/SkyZH/CloudOJ)
 ## Usage
 
 0. git clone ...
-1. Create config.py (or <Watcher>/config/__init__.py
+1. Create config.py (or `<Watcher>/config/__init__.py`)
 2. Install Compilers (gcc g++ fpc)
 3. Edit apikey in CloudOJ's config.ini
 4. Run `python3 main.py' (or Supervisor)

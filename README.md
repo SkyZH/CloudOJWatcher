@@ -53,7 +53,7 @@ Watcher now don't supprt Windows platform.
 
     langCompile = {
         0: "g++ -x c++ -O2 -Wall -lm -DONLINE_JUDGE --static --std=c++98 -fno-asm %(src)s -o %(target)s",
-        1: "gcc -x c -O2 -Wall -lm -DONLINE_JUDGE --static --std=c99 -fno-asm %(src)s -o %(target)s",
+        1: "gcc -x c -O2 -Wall -DONLINE_JUDGE --static --std=c99 -fno-asm %(src)s -lm -o %(target)s",
         2: "g++ -x c++ -O2 -Wall -lm -DONLINE_JUDGE --static --std=c++11 -fno-asm %(src)s -o %(target)s",
         3: "",
         4: "",

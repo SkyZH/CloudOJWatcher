@@ -7,6 +7,7 @@ import os
 import sys
 import ojrunnerwin
 import ojrunnerlinux
+import status
 
 class Judger:
     def __init__(self, client, sid, pid, lang):
@@ -26,11 +27,12 @@ class Judger:
         srcPath = "%s/%s/%s_%d.code" % (sys.path[0], config.dataPath["codePath"], self.sid, random.randint(0, 65536))
         outPath = "%s/%s/%s_%d.exe" % (sys.path[0], config.dataPath["execPath"], self.sid, random.randint(0, 65536))
         self.saveCode(srcPath)
+        retdata = "Judged by %s\n=========\n" %(config.ojconfig["judger"])
 
         print("    Compiling...")
         retVal, retData = self.compile(srcPath, outPath)
         if(retVal != 0):
-            self.putRet(retData)
+            self.putRet("%s%s" % (retdata, retData.decode()))
             self.putStatus(7, 0, 0)
             return 0
         else:
@@ -60,11 +62,14 @@ class Judger:
             jcount += 1
             mem += _mem
             time += _time
+            retdata = retdata + "%s on Test %s | Time %d ms    Memory %d KB\n" % (status.langMap[retval], datalist[key], _time, _mem)
+            self.putRet(retdata)
             if(retval != 2):
                 self.putStatus(retval, mem / jcount, time / jcount)
                 break
         if(retval == 2):
             self.putStatus(retval, mem / jcount, time / jcount)
+        print("Complete")
         return 0
 
     def saveCode(self, path):
@@ -74,7 +79,7 @@ class Judger:
         fp.close()
 
     def putRet(self, ret):
-        self.client.PutRet(self.sid, ret)
+        self.client.PutRet(self.sid, ret.encode())
 
     def putStatus(self, retcode, mem, time):
         self.client.PutStatus(self.sid, retcode, mem, time)

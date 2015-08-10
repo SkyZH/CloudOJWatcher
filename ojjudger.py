@@ -56,7 +56,11 @@ class Judger:
         mem = 0
         time = 0
         jcount = 0
-        for key in datalist:
+
+        _sorted_data_list = sorted(datalist, key=lambda d:int(d), reverse = False)
+
+        for _key in _sorted_data_list:
+            key = str(_key)
             retval, _mem, _time = self.judge(srcPath, outPath, self.__getDataPath(key, datalist[key], "in"),
               self.__getDataPath(key, datalist[key], "out"), prob_data["memlimit"], prob_data["timelimit"])
             jcount += 1

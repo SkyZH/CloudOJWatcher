@@ -66,7 +66,7 @@ class Judger:
             jcount += 1
             mem += _mem
             time += _time
-            retdata = retdata + "%s on Test %s | Time %d ms    Memory %d KB\n" % (status.langMap[retval], datalist[key], _time, _mem)
+            retdata = retdata + "%s on Test %s | Time %d ms    Memory %d KB\n" % (status.langMap[retval], datalist[key].ljust(30), _time, _mem)
             self.putRet(retdata)
             if(retval != 2):
                 self.putStatus(retval, mem / jcount, time / jcount)

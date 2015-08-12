@@ -15,7 +15,7 @@ class Runner:
         return
 
     def compile(self, judger, srcPath, outPath):
-        cmd = config.langCompile[judger.lang] % {'src': srcPath, 'target': outPath}
+        cmd = config.langCompile[judger.lang] % {'root': sys.path[0], 'src': srcPath, 'target': outPath}
         p = subprocess.Popen(cmd, shell = True,
           stdout = subprocess.PIPE, stdin = subprocess.PIPE, stderr = subprocess.STDOUT)
         retval = p.wait()
@@ -28,11 +28,10 @@ class Runner:
         if os.path.exists(fout_path):
             os.remove(fout_path)
 
-        
         fin = open(inFile, 'rU')
         fout = open(fout_path, 'w')
         runcfg = {
-            'args': [cmd],
+            'args': cmd.split(" "),
             'fd_in': fin.fileno(),
             'fd_out': fout.fileno(),
             'timelimit': int(timelimit),

@@ -3,7 +3,7 @@ CloudOJ's Status Watcher, take the place of SNGOJWatcher
 
 ## License
 
-CloudOJ's Status Watcher is under Apache License.
+CloudOJ's Status Watcher is under GNU License Version 3.
 
 ## CloudOJ
 

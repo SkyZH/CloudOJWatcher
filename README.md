@@ -34,7 +34,7 @@ Then python will automatically build Lo-runner and then install it.
 
 You may also need gcc, g++ and fpc for complete compiler support.
 
-Watcher now don't supprt Windows platform.
+Watcher now doesn't supprt Windows platform.
 
 ## config.py Example
 
